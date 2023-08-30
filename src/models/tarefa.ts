@@ -8,8 +8,34 @@ export class Tarefa {
     public descricao? : string;
     public status? : StatusTarefa;
     public date ? : Date;
-    public title ? : string;
+    public title  : string = '';
 }
+
+export const recuperarListagemTarefas = () => {
+    const txtCache = window.localStorage.getItem('BancoDeDados') || '[]';
+    const listagemTarefas = JSON.parse(txtCache);
+
+    return listagemTarefas;
+}
+
+export const salvarListagemTarefas = (tarefas : Tarefa[]) => {
+    window.localStorage.setItem('BancoDeDados', JSON.stringify(tarefas))
+
+}
+
+export const deletarPeloNome = (nome : string) => {
+    //  let tarefas = recuperarListagemTarefas() 
+    //  tarefas = tarefas.filter((tarefa : Tarefa) => tarefa.title != nome) 
+    //  salvarListagemTarefas(tarefas)
+
+    salvarListagemTarefas(
+        recuperarListagemTarefas()
+            .filter((tarefa : Tarefa) => tarefa.status != nome) 
+    )
+
+}
+
+
 
 export const gerarMock = () => {
     const t1 = new Tarefa();

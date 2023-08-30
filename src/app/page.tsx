@@ -1,12 +1,6 @@
-import Image from 'next/image'
-import styles from './page.module.css'
-import ListaDeTarefas from './components/ListaDeTarefas';
 
+export default () => {
 
-
-export default function Home() {
-  return (
-    <ListaDeTarefas/>
-
-  );
+    return <h1>Hello world</h1>
+    
 }

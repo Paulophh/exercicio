@@ -1,5 +1,5 @@
 "use client";
-import { Tarefa, gerarMock } from "@/app/models/tarefa";
+import { Tarefa, gerarMock, recuperarListagemTarefas } from "@/models/tarefa";
 import React from 'react';
 import { BoxListaDeTarefa, Container } from "./style";
 import ItemTarefa from "../ItemTarefa";
@@ -7,14 +7,14 @@ import ItemTarefa from "../ItemTarefa";
 
 
 export default () => {
-    const [tarefas, setTarefas] = React.useState(gerarMock())
+    const [tarefas, setTarefas] = React.useState(recuperarListagemTarefas())
 
     
 
     return <Container>
               <BoxListaDeTarefa>
-                {tarefas.map(tarefa => {
-                    return <ItemTarefa tarefa={tarefa}/>
+                {tarefas.map((tarefa : Tarefa) => {
+                    return <ItemTarefa onRefresh={()=>setTarefas(recuperarListagemTarefas())} tarefa={tarefa}/>
                 })}
                 {/* {
                     JSON.stringify(tarefas)

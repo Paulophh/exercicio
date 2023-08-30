@@ -23,19 +23,23 @@ export const salvarListagemTarefas = (tarefas : Tarefa[]) => {
 
 }
 
-export const deletarPeloNome = (nome : string) => {
+export const deletarPeloNome = (title : string) => {
     //  let tarefas = recuperarListagemTarefas() 
     //  tarefas = tarefas.filter((tarefa : Tarefa) => tarefa.title != nome) 
     //  salvarListagemTarefas(tarefas)
 
     salvarListagemTarefas(
         recuperarListagemTarefas()
-            .filter((tarefa : Tarefa) => tarefa.status != nome) 
+            .filter((tarefa : Tarefa) => tarefa.title != title) 
     )
 
 }
 
-
+export const atualizarStatus = (status : StatusTarefa) => {
+    salvarListagemTarefas(
+        recuperarListagemTarefas().filter((tarefa : Tarefa) =>tarefa.status != status)
+    )
+}
 
 export const gerarMock = () => {
     const t1 = new Tarefa();

@@ -1,5 +1,5 @@
 "use client";
-import { Tarefa, deletarPeloNome } from "@/models/tarefa";
+import { Tarefa, atualizarStatus, deletarPeloNome } from "@/models/tarefa";
 import { Container, CheckTasks, TitleTask, Control, DescriptionTask, ButtonsTask } from "./style";
 import dayJS from 'dayjs';
 import {BsFillTrashFill} from 'react-icons/bs'
@@ -14,7 +14,6 @@ export default ({tarefa, onRefresh}:{tarefa:Tarefa, onRefresh: Function}) => {
   } 
 
   const atualizarStatusTarefa = () => {
-    
     
     onRefresh()
 
@@ -34,6 +33,8 @@ export default ({tarefa, onRefresh}:{tarefa:Tarefa, onRefresh: Function}) => {
                  <span>Descrição: {tarefa.descricao}</span>
                 </DescriptionTask>
                 <ButtonsTask>
+                  <span>Status: {tarefa.status?.toUpperCase()}</span>
+                  <br></br>
                   <button className="botao">Pendente</button>
                   <button className="botao">Feito</button>
                   <button className="botao">Fazendo</button>

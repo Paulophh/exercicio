@@ -1,8 +1,9 @@
 "use client";
-import { Tarefa, atualizarStatus, deletarPeloNome } from "@/models/tarefa";
+import { StatusTarefa, Tarefa,  deletarPeloNome } from "@/models/tarefa";
 import { Container, CheckTasks, TitleTask, Control, DescriptionTask, ButtonsTask } from "./style";
 import dayJS from 'dayjs';
 import {BsFillTrashFill} from 'react-icons/bs'
+import { useState } from "react";
 
 
 export default ({tarefa, onRefresh}:{tarefa:Tarefa, onRefresh: Function}) => {
@@ -13,13 +14,7 @@ export default ({tarefa, onRefresh}:{tarefa:Tarefa, onRefresh: Function}) => {
        onRefresh()    
   } 
 
-  const atualizarStatusTarefa = () => {
-    
-    onRefresh()
-
-  }
-
-  
+ 
 
     return <Container>
              <Control>
@@ -33,7 +28,7 @@ export default ({tarefa, onRefresh}:{tarefa:Tarefa, onRefresh: Function}) => {
                  <span>Descrição: {tarefa.descricao}</span>
                 </DescriptionTask>
                 <ButtonsTask>
-                  <span>Status: {tarefa.status?.toUpperCase()}</span>
+                  <span>Status: {tarefa.status}</span>
                   <br></br>
                   <button className="botao">Pendente</button>
                   <button className="botao">Feito</button>
@@ -50,6 +45,6 @@ export default ({tarefa, onRefresh}:{tarefa:Tarefa, onRefresh: Function}) => {
 
 
 
-
-} 
+              
+}
 

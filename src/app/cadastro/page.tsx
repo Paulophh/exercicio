@@ -70,7 +70,7 @@ export function Formulario() {
                   <StyledLabel>Tarefa Data</StyledLabel>
                   <StyledField name="data" type="date"/>
                 </div>
-                {JSON.stringify(values)}
+              
                 
               
               

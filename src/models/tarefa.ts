@@ -4,9 +4,10 @@ export enum StatusTarefa {
     PENDENTE = "PENDENTE", FAZENDO = "FAZENDO", FEITO = "FEITO", CANCELADO = "CANCELADO"
 }
 
+
 export class Tarefa {
     public descricao? : string;
-    public status? : StatusTarefa;
+    public status : StatusTarefa = StatusTarefa.PENDENTE;
     public date ? : Date;
     public title  : string = '';
 }
@@ -35,11 +36,7 @@ export const deletarPeloNome = (title : string) => {
 
 }
 
-export const atualizarStatus = (status : StatusTarefa) => {
-    salvarListagemTarefas(
-        recuperarListagemTarefas().filter((tarefa : Tarefa) =>tarefa.status != status)
-    )
-}
+
 
 export const gerarMock = () => {
     const t1 = new Tarefa();

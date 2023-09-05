@@ -1,5 +1,5 @@
 "use client";
-import { Tarefa, gerarMock, recuperarListagemTarefas } from "@/models/tarefa";
+import { Tarefa,  recuperarListagemTarefas } from "@/models/tarefa";
 import React from 'react';
 import { BoxListaDeTarefa, Container } from "./style";
 import ItemTarefa from "../ItemTarefa";

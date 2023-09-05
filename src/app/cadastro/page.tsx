@@ -1,9 +1,11 @@
 "use client";
 import React from 'react';
+import {useState} from 'react';
 import { Formik, Field, Form, FormikValues } from 'formik';
 import { BoxFormulario, Container, StyledField, StyledLabel, StyledButton} from './style';
 import * as Yup from "yup";
 import dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 import { Tarefa } from '@/models/tarefa';
 
 const FormSchema = Yup.object().shape({
@@ -18,13 +20,28 @@ const FormSchema = Yup.object().shape({
   });
 
 export function Formulario() {
+
   const onSubmit = (tarefa: FormikValues) => {
-    const txtCache = window.localStorage.getItem('BancoDeDados') || '[]';
-    const listagemTarefas = JSON.parse(txtCache);
-    listagemTarefas.push(tarefa);
-    window.localStorage.setItem('BancoDeDados', JSON.stringify(listagemTarefas));
+      if (tarefa.id) {
+      const txtCache = window.localStorage.getItem('BancoDeDados') || '[]';
+      const listagemTarefas = JSON.parse(txtCache);
+      const tarefaIndex = listagemTarefas.findIndex((tarefaItem : Tarefa) => tarefaItem.id === tarefa.id);
+      if (tarefaIndex !== -1) {
+        listagemTarefas[tarefaIndex] = tarefa;
+        window.localStorage.setItem('BancoDeDados', JSON.stringify(listagemTarefas));
+      }
+    } else {
+      tarefa.id = uuidv4();
+      const txtCache = window.localStorage.getItem('BancoDeDados') || '[]';
+      const listagemTarefas = JSON.parse(txtCache);
+      listagemTarefas.push(tarefa);
+      window.localStorage.setItem('BancoDeDados', JSON.stringify(listagemTarefas));
+      
+    }
+  
     console.log(tarefa);
   };
+  
 
   return (
     <Container>
@@ -74,7 +91,8 @@ export function Formulario() {
                 
               
               
-              <StyledButton type="submit">Adicionar tarefa</StyledButton>
+              <StyledButton type="submit" >Adicionar tarefa</StyledButton>
+              <StyledButton type="submit" >Edite a Tarefa</StyledButton>
             </BoxFormulario>
           </Form>
         )}

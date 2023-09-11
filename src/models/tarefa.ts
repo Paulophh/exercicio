@@ -14,7 +14,7 @@ export class Tarefa {
     public id : string = '';
     public descricao? : string;
     public status : StatusTarefa = StatusTarefa.PENDENTE;
-    public date ? : Date;
+    public data ? : Date;
     public title  : string = '';
    
 }
@@ -47,13 +47,3 @@ export const deletarPeloNome = (id : string) => {
 
 
 
-    const t1 = new Tarefa();
-    t1.descricao = "Tarefa lavar a louça";
-    t1.status = StatusTarefa.FAZENDO;
-    t1.date = dayjs("2010-10-12").add(1, "day").toDate();
-    t1.title = " Tarefa de Casa ";
-
-
-
-console.log(t1.id);
- 

@@ -1,12 +1,13 @@
 "use client";
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useState} from 'react';
 import { Formik, Field, Form, FormikValues } from 'formik';
 import { BoxFormulario, Container, StyledField, StyledLabel, StyledButton} from './style';
 import * as Yup from "yup";
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
-import { Tarefa } from '@/models/tarefa';
+import { StatusTarefa, Tarefa, recuperarListagemTarefas, salvarListagemTarefas } from '@/models/tarefa';
+import { useParams, useRouter } from 'next/navigation';
 
 const FormSchema = Yup.object().shape({
     title: Yup.string()
@@ -20,8 +21,42 @@ const FormSchema = Yup.object().shape({
   });
 
 export function Formulario() {
+  const [fields, setFields] = useState<null | any >(null)
+  const router = useRouter()
+  const params = useParams()
+  const onLoad = async () => {
+    console.log(params)
+    if(params.id != 'novo' ){
+      const tarefasListagem = recuperarListagemTarefas()
+      const tarefa = tarefasListagem.find(_tarefa  => _tarefa.id == params.id) 
+      console.log(tarefa)
+      setFields({
+        id: tarefa.id,
+        title: tarefa.title,
+        descricao: tarefa.descricao,
+        status: tarefa.status,
+        data: tarefa.data,
+        
+      })
 
-  const onSubmit = (tarefa: FormikValues) => {
+    }else {
+      setFields({
+        id: null,
+        title: '',
+        descricao: '',
+        status: 'fazendo',
+        data: dayjs().format('YYYY-MM-DD'),
+        
+      })
+    }
+  } 
+  useEffect(() =>{
+    onLoad() 
+  }, [])
+
+
+
+    const onSubmit = (tarefa: FormikValues) => {
       if (tarefa.id) {
       const txtCache = window.localStorage.getItem('BancoDeDados') || '[]';
       const listagemTarefas = JSON.parse(txtCache);
@@ -38,6 +73,8 @@ export function Formulario() {
       window.localStorage.setItem('BancoDeDados', JSON.stringify(listagemTarefas));
       
     }
+
+    router.push('/listagem')
   
     console.log(tarefa);
   };
@@ -45,14 +82,12 @@ export function Formulario() {
 
   return (
     <Container>
+      {
+        fields != null && 
       <Formik
-        initialValues={{
-          title: '',
-          descricao: '',
-          status: 'fazendo',
-          data: dayjs().format('YYYY-MM-DD'),
-          
-        }}
+        initialValues={
+          fields
+        }
         validationSchema={FormSchema}
 
         onSubmit={onSubmit}
@@ -87,16 +122,16 @@ export function Formulario() {
                   <StyledLabel>Tarefa Data</StyledLabel>
                   <StyledField name="data" type="date"/>
                 </div>
+                {
+                  JSON.stringify(values)
+                }
               
-                
-              
-              
-              <StyledButton type="submit" >Adicionar tarefa</StyledButton>
-              <StyledButton type="submit" >Edite a Tarefa</StyledButton>
+              <StyledButton type="submit">Edite a Tarefa</StyledButton>
             </BoxFormulario>
           </Form>
         )}
       </Formik>
+    }
     </Container>
   );
 }
